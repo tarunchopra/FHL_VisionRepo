@@ -13,6 +13,18 @@ from typing import List, Optional, Type
 
 import torch
 
+sharepoint_config = {
+    "url": "https://taruntest.sharepoint.com",
+    "list_name": "YourListName",
+    "item_id": 1,  # ID of the item you want to update
+    "data": {
+        "Title": "Updated Title",
+        "Description": "Updated Description"
+    },
+    "username": "your_username",
+    "password": "your_password"
+}
+
 
 @dataclass
 class DetectionRecord:
