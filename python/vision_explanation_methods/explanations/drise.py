@@ -382,7 +382,7 @@ def DRISE_saliency_for_mlflow(
 
         update_sharepoint_list_item()
 
-        sharepoint_config
+       
     return saliency_fusion(mask_records, device, verbose=verbose)
 
 
