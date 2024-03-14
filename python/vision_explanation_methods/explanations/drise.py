@@ -22,7 +22,7 @@ import tqdm
 from torch import Tensor
 
 from .common import (DetectionRecord, GeneralObjectDetectionModelWrapper,
-                     compute_affinity_matrix)
+                     compute_affinity_matrix, sharepoint_config)
 
 
 @dataclass
@@ -380,26 +380,23 @@ def DRISE_saliency_for_mlflow(
             affinity_scores=[s.detach().cpu() for s in affinity_scores])
         )
 
-        update_sharepoint_list_item()
-
-       
+        update_sharepoint_list_item()       
     return saliency_fusion(mask_records, device, verbose=verbose)
 
-
-    def update_sharepoint_list_item():
-    endpoint = sharepoint_config['url']
-    headers = {
-        "Accept": "application/json;odata=verbose",
-        "Content-Type": "application/json;odata=verbose",
-        "X-HTTP-Method": "MERGE",
-        "If-Match": "*"
-    }
-    auth = HTTPBasicAuth(sharepoint_config['username'], sharepoint_config['password'])
-    
-    try:
-        response = requests.post(endpoint, json=sharepoint_config['data'], headers=headers, auth=auth)
-        response.raise_for_status()
-        print("Item updated successfully.")
-    except requests.exceptions.RequestException as e:
-        print("Error updating item:", e)
+def update_sharepoint_list_item():
+      endpoint = sharepoint_config['url']
+      headers = {
+          "Accept": "application/json;odata=verbose",
+          "Content-Type": "application/json;odata=verbose",
+          "X-HTTP-Method": "MERGE",
+          "If-Match": "*"
+      }
+      auth = HTTPBasicAuth(sharepoint_config['username'], sharepoint_config['password'])
+      
+      try:
+          response = requests.post(endpoint, json=sharepoint_config['data'], headers=headers, auth=auth)
+          response.raise_for_status()
+          print("Item updated successfully.")
+      except requests.exceptions.RequestException as e:
+          print("Error updating item:", e)
 
